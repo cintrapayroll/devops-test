@@ -1,0 +1,10 @@
+version: "3.8"
+services:
+  devops-test-app:
+    container_name: devops-test-app
+    build:
+      context: .
+    image: sachin28/devops-test-app:latest
+    ports:
+      - "8088:80"
+

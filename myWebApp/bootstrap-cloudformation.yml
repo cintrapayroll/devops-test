@@ -1,0 +1,35 @@
+AWSTemplateFormatVersion: 2010-09-09
+Resources:
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: "glamorous-devops-terraform-state"
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      VersioningConfiguration:
+        Status: Enabled
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+  DDBTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: "glamorous-devops-terraform-lock"
+      BillingMode: "PAY_PER_REQUEST"
+      AttributeDefinitions:
+        -
+          AttributeName: "LockID"
+          AttributeType: "S"
+      KeySchema:
+        -
+          AttributeName: "LockID"
+          KeyType: "HASH"
+  
+  ECRRepo:
+    Type: AWS::ECR::Repository
+    Properties: 
+      RepositoryName: "glamorous-devops-app"
